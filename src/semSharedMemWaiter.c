@@ -136,7 +136,7 @@ int main (int argc, char *argv[])
  */
 static request waitForClientOrChef() //waiter waits for next request
 {
-    request req; 
+    request req = {0}; // Initializing with default values
     if (semDown (semgid, sh->mutex) == -1)  {                                                  /* enter critical region */
         perror ("error on the up operation for semaphore access (WT)");
         exit (EXIT_FAILURE);
