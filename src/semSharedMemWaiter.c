@@ -144,8 +144,9 @@ static request waitForClientOrChef() //waiter waits for next request
 
     // TODO insert your code here
     // waiter updates state
-    sh->fSt.st.waiterStat = WAIT_FOR_REQUEST; //added
+    sh->fSt.st.waiterStat = WAIT_FOR_REQUEST;
     saveState(nFic, &sh->fSt); 
+    //end of TODO   
     
     if (semUp (semgid, sh->mutex) == -1)      {                                             /* exit critical region */
         perror ("error on the down operation for semaphore access (WT)");
@@ -166,6 +167,9 @@ static request waitForClientOrChef() //waiter waits for next request
 
     // TODO insert your code here
     // waiter reads request
+    req = sh->fSt.waiterRequest;
+    //end of TODO
+
     if (semDown (semgid, sh->waiterRequest) == -1)      {                                             /* exit critical region */
         perror ("error on the down operation for semaphore access");
         exit (EXIT_FAILURE);
@@ -231,7 +235,6 @@ static void informChef (int n) //waiter takes food order to chef
     }
 
     // chef receives request
-
     // waitOrder - \brief identification of semaphore used by chef to wait for order – val = 0
     if (semUp (semgid, sh->waitOrder) == -1)
     {
@@ -240,13 +243,13 @@ static void informChef (int n) //waiter takes food order to chef
     }
 
     // waiter waits for chef receiving request
-
     // orderReceived - \brief identification of semaphore used by waiter to wait for chef – val = 0
     if (semDown (semgid, sh->orderReceived) == -1)
     {
         perror ("error on the up operation for semaphore access (PT)");
         exit (EXIT_FAILURE);
     }
+    //end of TODO
 
 }
 
@@ -272,13 +275,13 @@ static void takeFoodToTable (int n)
     saveState(nFic, &sh->fSt);
 
     // inform group that food is available
-
     // foodArrived [sh->fSt.assignedTable[n]] - \brief identification of semaphore used by groups to wait for food – val = 0
     if (semUp (semgid, sh->foodArrived [sh->fSt.assignedTable[n]]) == -1)
     {
         perror ("error on the up operation for semaphore access (PT)");
         exit (EXIT_FAILURE);
     }
+    //end of TODO
     
     if (semUp (semgid, sh->mutex) == -1)  {                                                  /* exit critical region */
         perror ("error on the down operation for semaphore access (WT)");
