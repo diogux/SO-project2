@@ -155,7 +155,7 @@ static request waitForClientOrChef() //waiter waits for next request
     // TODO insert your code here
     // waiter waits for request
     if (semDown (semgid, sh->waiterRequestPossible) == -1)      {                                             /* exit critical region */
-        perror ("error on the down operation for semaphore access (WT)"); //added
+        perror ("error on the down operation for semaphore access (WT)");
         exit (EXIT_FAILURE);
     }
 
@@ -167,7 +167,7 @@ static request waitForClientOrChef() //waiter waits for next request
     // TODO insert your code here
     // waiter reads request
     if (semDown (semgid, sh->waiterRequest) == -1)      {                                             /* exit critical region */
-        perror ("error on the down operation for semaphore access"); //added
+        perror ("error on the down operation for semaphore access");
         exit (EXIT_FAILURE);
     }
 
@@ -179,7 +179,7 @@ static request waitForClientOrChef() //waiter waits for next request
     // TODO insert your code here
     // waiter signals that new requests are possible
     if (semUp (semgid, sh->waiterRequestPossible) == -1)      {                                             /* exit critical region */
-        perror ("error on the down operation for semaphore access (WT)"); //added
+        perror ("error on the down operation for semaphore access (WT)");
         exit (EXIT_FAILURE); 
     }
 
@@ -205,11 +205,11 @@ static void informChef (int n) //waiter takes food order to chef
 
     // TODO insert your code here
     // waiter updates state
-    sh->fSt.st.waiterStat = INFORM_CHEF; //added
+    sh->fSt.st.waiterStat = INFORM_CHEF;
     saveState(nFic, &sh->fSt);
 
     // saves group order
-    sh->fSt.foodGroup = n; //added
+    sh->fSt.foodGroup = n;
     sh->fSt.foodOrder = 1;   
     
     // table assigned to group
