@@ -127,6 +127,10 @@ static void waitForOrder ()
 {
 
     //TODO insert your code here
+    //update chef state
+    sh->fSt.st.chefStat = WAIT_FOR_ORDER; //chef waits for order
+    saveState(nFic, &sh->fSt);
+    //end of TODO
     //block until waiter signals chef that there is a new order
      if (semDown (semgid, sh->waitOrder) == -1)
     {
@@ -147,7 +151,7 @@ static void waitForOrder ()
     lastGroup = sh->fSt.foodGroup;
     sh->fSt.foodOrder = 0;
 
-    sh->fSt.st.chefStat = COOK;
+    sh->fSt.st.chefStat = COOK; //chef is cooking
     saveState(nFic, &sh->fSt);
     //end of TODO
     
@@ -200,7 +204,7 @@ static void processOrder ()
     sh->fSt.waiterRequest.reqGroup = lastGroup; //group that requested food
 
     //internal update of chef state
-    sh->fSt.st.chefStat = WAIT_FOR_ORDER; //chef waits for order
+    sh->fSt.st.chefStat = REST; //chef is resting
     saveState(nFic, &sh->fSt);
     //end of TODO
 

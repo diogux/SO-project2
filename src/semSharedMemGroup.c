@@ -186,9 +186,17 @@ static void eat (int id)
  *
  *  \return true if first group, false otherwise
  */
-static void checkInAtReception(int id)
+static void checkInAtReception(int id) // Group gets to the reception, and waits till the receptionist is available
 {
     // TODO insert your code here
+    
+    if (semDown (semgid, sh->receptionistRequestPossible) == -1)
+    {
+        perror ("error on the up operation for semaphore access (PT)");
+        exit (EXIT_FAILURE);
+    }
+    
+    // END
 
     if (semDown (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
@@ -197,12 +205,40 @@ static void checkInAtReception(int id)
 
     // TODO insert your code here
 
+    // Change the group state because it's now at the reception
+    sh->fSt.st.groupStat[id] = ATRECEPTION;
+
+    // Request a table
+    sh->fSt.receptionistRequest.reqType = TABLEREQ;
+    sh->fSt.receptionistRequest.reqGroup = id;
+    saveState(nFic, &sh->fSt);
+    
+    // END
+
     if (semUp (semgid, sh->mutex) == -1) {                                                      /* exit critical region */
         perror ("error on the up operation for semaphore access (CT)");
         exit (EXIT_FAILURE);
     }
 
     // TODO insert your code here
+
+    // Receptionist receives the request
+
+    if (semUp (semgid, sh->receptionistReq) == -1)
+    {
+        perror ("error on the up operation for semaphore access (PT)");
+        exit (EXIT_FAILURE);
+    }
+
+    // Make sure the groups wait till there is a table available
+
+    if (semDown (semgid, sh->waitForTable[id]) == -1)
+    {
+        perror ("error on the up operation for semaphore access (PT)");
+        exit (EXIT_FAILURE);
+    }
+
+    // END
 
 }
 
@@ -216,9 +252,17 @@ static void checkInAtReception(int id)
  *
  *  \param id group id
  */
-static void orderFood (int id)
+static void orderFood (int id) // After being assigned a table, the group waits for the waiter
 {
     // TODO insert your code here
+
+     if (semDown (semgid, sh->waiterRequestPossible) == -1)
+    {
+        perror ("error on the up operation for semaphore access (PT)");
+        exit (EXIT_FAILURE);
+    }
+
+    // END
 
     if (semDown (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
@@ -227,12 +271,32 @@ static void orderFood (int id)
 
     // TODO insert your code here
 
+    // Change the group state because it's now ordering food
+    sh->fSt.st.groupStat[id] = FOOD_REQUEST;
+    saveState(nFic, &sh->fSt);
+
+    // Waiter receives the request
+    sh->fSt.waiterRequest.reqType = FOODREQ;
+    sh->fSt.waiterRequest.reqGroup = id;
+
+    // END
+
     if (semUp (semgid, sh->mutex) == -1) {                                                     /* exit critical region */
         perror ("error on the up operation for semaphore access (CT)");
         exit (EXIT_FAILURE);
     }
 
     // TODO insert your code here
+
+    // Waiter can now receive requests again
+
+    if (semUp (semgid, sh->waiterRequest) == -1)
+    {
+        perror ("error on the up operation for semaphore access (PT)");
+        exit (EXIT_FAILURE);
+    }
+
+    // END
 }
 
 /**
@@ -244,7 +308,7 @@ static void orderFood (int id)
  *
  *  \param id group id
  */
-static void waitFood (int id)
+static void waitFood (int id) // Request has been given to the waiter, now the group waits for the food, then eats
 {
     if (semDown (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
@@ -253,6 +317,14 @@ static void waitFood (int id)
 
     // TODO insert your code here
 
+    // Group is now waiting for food
+    sh->fSt.st.groupStat[id] = WAIT_FOR_FOOD;
+    saveState(nFic, &sh->fSt);
+
+    int table = sh->fSt.assignedTable[id]; 
+
+    // END
+
     if (semUp (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
         exit (EXIT_FAILURE);
@@ -260,12 +332,28 @@ static void waitFood (int id)
 
     // TODO insert your code here
 
+    // Wait for the food to arrive
+    if (semDown (semgid, sh->foodArrived[table]) == -1)
+    {
+        perror ("error on the up operation for semaphore access (PT)");
+        exit (EXIT_FAILURE);
+    }
+
+    // END
+
     if (semDown (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
         exit (EXIT_FAILURE);
     }
 
     // TODO insert your code here
+
+    // Group is now eating
+    sh->fSt.st.groupStat[id] = EAT;
+    saveState(nFic, &sh->fSt);
+
+    // END
+    
 
     if (semUp (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
@@ -284,9 +372,18 @@ static void waitFood (int id)
  *
  *  \param id group id
  */
-static void checkOutAtReception (int id)
+static void checkOutAtReception (int id) // Group will now wait for the waiter to be available for the payment
 {
     // TODO insert your code here
+
+
+      if (semDown (semgid, sh->receptionistRequestPossible) == -1)
+    {
+        perror ("error on the up operation for semaphore access (PT)");
+        exit (EXIT_FAILURE);
+    }
+
+    // END
 
     if (semDown (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
@@ -294,6 +391,19 @@ static void checkOutAtReception (int id)
     }
 
     // TODO insert your code here
+
+    // Change the group state because it's now at the reception
+    sh->fSt.st.groupStat[id] = CHECKOUT;
+    saveState(nFic, &sh->fSt);
+
+    // Receptionist receives the bill request
+    sh->fSt.receptionistRequest.reqType = BILLREQ;
+    sh->fSt.receptionistRequest.reqGroup = id;
+
+    int table = sh->fSt.assignedTable[id];
+
+    // END
+
 
     if (semUp (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
@@ -302,12 +412,35 @@ static void checkOutAtReception (int id)
 
     // TODO insert your code here
 
+    // Receptionist receives the request
+    if (semUp (semgid, sh->receptionistReq) == -1)
+    {
+        perror ("error on the up operation for semaphore access (PT)");
+        exit (EXIT_FAILURE);
+    }
+
+    // Table will be ready after the payment is done
+    if (semDown (semgid, sh->tableDone[table]) == -1)
+    {
+        perror ("error on the up operation for semaphore access (PT)");
+        exit (EXIT_FAILURE);
+    }
+
+    // END
+
     if (semDown (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
         exit (EXIT_FAILURE);
     }
 
     // TODO insert your code here
+
+    // Group is now leaving
+    sh->fSt.st.groupStat[id] = LEAVING;
+    saveState(nFic, &sh->fSt);
+
+    // END
+
 
     if (semUp (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
@@ -315,4 +448,3 @@ static void checkOutAtReception (int id)
     }
 
 }
-
