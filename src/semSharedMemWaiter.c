@@ -154,7 +154,7 @@ static request waitForClientOrChef() //waiter waits for next request
 
     // TODO insert your code here
     // waiter waits for request
-    if (semDown (semgid, sh->waiterRequestPossible) == -1)      {                                             /* exit critical region */
+    if (semDown (semgid, sh->waiterRequest) == -1)      {                                             /* exit critical region */
         perror ("error on the down operation for semaphore access (WT)"); //added
         exit (EXIT_FAILURE);
     }
@@ -166,10 +166,8 @@ static request waitForClientOrChef() //waiter waits for next request
 
     // TODO insert your code here
     // waiter reads request
-    if (semDown (semgid, sh->waiterRequest) == -1)      {                                             /* exit critical region */
-        perror ("error on the down operation for semaphore access"); //added
-        exit (EXIT_FAILURE);
-    }
+
+    req = sh->fSt.waiterRequest; //added
 
     if (semUp (semgid, sh->mutex) == -1) {                                                  /* exit critical region */
         perror ("error on the down operation for semaphore access (WT)");
