@@ -198,7 +198,7 @@ static void checkInAtReception(int id) // Group gets to the reception, and waits
     
     // END
 
-    if (semDown (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
+    if (semDown (semgid, sh->mutex) == -1) {                             /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
         exit (EXIT_FAILURE);
     }
@@ -215,7 +215,7 @@ static void checkInAtReception(int id) // Group gets to the reception, and waits
     
     // END
 
-    if (semUp (semgid, sh->mutex) == -1) {                                                      /* exit critical region */
+    if (semUp (semgid, sh->mutex) == -1) {                              /* exit critical region */
         perror ("error on the up operation for semaphore access (CT)");
         exit (EXIT_FAILURE);
     }
@@ -264,7 +264,7 @@ static void orderFood (int id) // After being assigned a table, the group waits 
 
     // END
 
-    if (semDown (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
+    if (semDown (semgid, sh->mutex) == -1) {                             /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
         exit (EXIT_FAILURE);
     }
@@ -281,7 +281,7 @@ static void orderFood (int id) // After being assigned a table, the group waits 
 
     // END
 
-    if (semUp (semgid, sh->mutex) == -1) {                                                     /* exit critical region */
+    if (semUp (semgid, sh->mutex) == -1) {                              /* exit critical region */
         perror ("error on the up operation for semaphore access (CT)");
         exit (EXIT_FAILURE);
     }
@@ -310,7 +310,7 @@ static void orderFood (int id) // After being assigned a table, the group waits 
  */
 static void waitFood (int id) // Request has been given to the waiter, now the group waits for the food, then eats
 {
-    if (semDown (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
+    if (semDown (semgid, sh->mutex) == -1) {                              /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
         exit (EXIT_FAILURE);
     }
@@ -325,7 +325,7 @@ static void waitFood (int id) // Request has been given to the waiter, now the g
 
     // END
 
-    if (semUp (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
+    if (semUp (semgid, sh->mutex) == -1) {                                /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
         exit (EXIT_FAILURE);
     }
@@ -341,7 +341,7 @@ static void waitFood (int id) // Request has been given to the waiter, now the g
 
     // END
 
-    if (semDown (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
+    if (semDown (semgid, sh->mutex) == -1) {                             /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
         exit (EXIT_FAILURE);
     }
@@ -355,7 +355,7 @@ static void waitFood (int id) // Request has been given to the waiter, now the g
     // END
     
 
-    if (semUp (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
+    if (semUp (semgid, sh->mutex) == -1) {                                /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
         exit (EXIT_FAILURE);
     }
@@ -385,7 +385,7 @@ static void checkOutAtReception (int id) // Group will now wait for the waiter t
 
     // END
 
-    if (semDown (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
+    if (semDown (semgid, sh->mutex) == -1) {                              /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
         exit (EXIT_FAILURE);
     }
@@ -405,7 +405,7 @@ static void checkOutAtReception (int id) // Group will now wait for the waiter t
     // END
 
 
-    if (semUp (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
+    if (semUp (semgid, sh->mutex) == -1) {                                /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
         exit (EXIT_FAILURE);
     }
@@ -428,7 +428,7 @@ static void checkOutAtReception (int id) // Group will now wait for the waiter t
 
     // END
 
-    if (semDown (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
+    if (semDown (semgid, sh->mutex) == -1) {                             /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
         exit (EXIT_FAILURE);
     }
@@ -442,7 +442,7 @@ static void checkOutAtReception (int id) // Group will now wait for the waiter t
     // END
 
 
-    if (semUp (semgid, sh->mutex) == -1) {                                                  /* enter critical region */
+    if (semUp (semgid, sh->mutex) == -1) {                               /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
         exit (EXIT_FAILURE);
     }

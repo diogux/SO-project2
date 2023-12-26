@@ -139,7 +139,7 @@ static void waitForOrder ()
     sh->fSt.st.chefStat = WAIT_FOR_ORDER; //chef waits for order
     saveState(nFic, &sh->fSt);
     
-    if (semDown (semgid, sh->mutex) == -1) {                                                      /* enter critical region */
+    if (semDown (semgid, sh->mutex) == -1) {                            /* enter critical region */
         perror ("error on the up operation for semaphore access (PT)");
         exit (EXIT_FAILURE);
     }
@@ -156,7 +156,7 @@ static void waitForOrder ()
     //end of TODO
     
 
-    if (semUp (semgid, sh->mutex) == -1) {                                                      /* exit critical region */
+    if (semUp (semgid, sh->mutex) == -1) {                              /* exit critical region */
         perror ("error on the up operation for semaphore access (PT)");
         exit (EXIT_FAILURE);
     }
@@ -193,7 +193,7 @@ static void processOrder ()
     //end of TODO
     
 
-    if (semDown (semgid, sh->mutex) == -1) {                                                      /* enter critical region */
+    if (semDown (semgid, sh->mutex) == -1) {                             /* enter critical region */
         perror ("error on the up operation for semaphore access (PT)");
         exit (EXIT_FAILURE);
     }
@@ -208,7 +208,7 @@ static void processOrder ()
     saveState(nFic, &sh->fSt);
     //end of TODO
 
-    if (semUp (semgid, sh->mutex) == -1) {                                                      /* exit critical region */
+    if (semUp (semgid, sh->mutex) == -1) {                              /* exit critical region */
         perror ("error on the up operation for semaphore access (PT)");
         exit (EXIT_FAILURE);
     }
