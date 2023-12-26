@@ -136,7 +136,7 @@ int main (int argc, char *argv[])
  */
 static request waitForClientOrChef() //waiter waits for next request
 {
-    request req = {0}; // Initializing with default values
+    request req;
     if (semDown (semgid, sh->mutex) == -1)  {                                                  /* enter critical region */
         perror ("error on the up operation for semaphore access (WT)");
         exit (EXIT_FAILURE);
@@ -155,7 +155,7 @@ static request waitForClientOrChef() //waiter waits for next request
 
     // TODO insert your code here
     // waiter waits for request
-    if (semDown (semgid, sh->waiterRequestPossible) == -1)      {                                             /* exit critical region */
+    if (semDown (semgid, sh->waiterRequest) == -1)      {                                             /* exit critical region */
         perror ("error on the down operation for semaphore access (WT)");
         exit (EXIT_FAILURE);
     }
@@ -169,11 +169,6 @@ static request waitForClientOrChef() //waiter waits for next request
     // waiter reads request
     req = sh->fSt.waiterRequest;
     //end of TODO
-
-    if (semDown (semgid, sh->waiterRequest) == -1)      {                                             /* exit critical region */
-        perror ("error on the down operation for semaphore access");
-        exit (EXIT_FAILURE);
-    }
 
     if (semUp (semgid, sh->mutex) == -1) {                                                  /* exit critical region */
         perror ("error on the down operation for semaphore access (WT)");
@@ -217,7 +212,7 @@ static void informChef (int n) //waiter takes food order to chef
     sh->fSt.foodOrder = 1;   
     
     // table assigned to group
-    int id_mesa = sh->fSt.assignedTable[n];
+    int table_id = sh->fSt.assignedTable[n];
 
     if (semUp (semgid, sh->mutex) == -1)                                                   /* exit critical region */
     { perror ("error on the down operation for semaphore access (WT)");
@@ -228,7 +223,7 @@ static void informChef (int n) //waiter takes food order to chef
     // TODO insert your code here
     // notify group that request is received
     // requestReceived[id_mesa] - \brief identification of semaphore used by groups to wait for waiter ackowledge – val = 0 
-    if (semUp (semgid, sh->requestReceived[id_mesa]) == -1)
+    if (semUp (semgid, sh->requestReceived[table_id]) == -1)
     {
         perror ("error on the up operation for semaphore access (PT)");
         exit (EXIT_FAILURE);
