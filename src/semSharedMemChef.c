@@ -130,7 +130,7 @@ static void waitForOrder ()
     //update chef state
     //end of TODO
     //block until waiter signals chef that there is a new order
-     if (semDown (semgid, sh->waitOrder) == -1)
+    if (semDown (semgid, sh->waitOrder) == -1)
     {
         perror ("error on the up operation for semaphore access (PT)");
         exit (EXIT_FAILURE);

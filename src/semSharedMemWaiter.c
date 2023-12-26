@@ -228,7 +228,7 @@ static void informChef (int n) //waiter takes food order to chef
         exit (EXIT_FAILURE);
     }
 
-    // chef receives request
+    // chef waits for order
     if (semUp (semgid, sh->waitOrder) == -1)
     {
         perror ("error on the up operation for semaphore access (PT)");
@@ -267,7 +267,7 @@ static void takeFoodToTable (int n)
     saveState(nFic, &sh->fSt);
 
     // inform group that food is available
-    if (semUp (semgid, sh->foodArrived [sh->fSt.assignedTable[n]]) == -1)
+    if (semUp (semgid, sh->foodArrived [sh->fSt.assignedTable[n]]) == -1) 
     {
         perror ("error on the up operation for semaphore access (PT)");
         exit (EXIT_FAILURE);
