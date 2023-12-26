@@ -128,8 +128,6 @@ static void waitForOrder ()
 
     //TODO insert your code here
     //update chef state
-    sh->fSt.st.chefStat = WAIT_FOR_ORDER; //chef waits for order
-    saveState(nFic, &sh->fSt);
     //end of TODO
     //block until waiter signals chef that there is a new order
      if (semDown (semgid, sh->waitOrder) == -1)
@@ -138,6 +136,8 @@ static void waitForOrder ()
         exit (EXIT_FAILURE);
     }
      
+    //sh->fSt.st.chefStat = WAIT_FOR_ORDER; //chef waits for order
+    //saveState(nFic, &sh->fSt);
     if (semDown (semgid, sh->mutex) == -1) {                                                      /* enter critical region */
         perror ("error on the up operation for semaphore access (PT)");
         exit (EXIT_FAILURE);
@@ -145,7 +145,6 @@ static void waitForOrder ()
 
     //TODO insert your code here
     //chef has received an order
-    sh->fSt.foodOrder = 1;
 
     //update chef state
     lastGroup = sh->fSt.foodGroup;
@@ -185,7 +184,7 @@ static void processOrder ()
 
     //TODO insert your code here
     //signal waiter that food is ready (this may only happen when waiter is available)
-    if (semUp (semgid, sh->waiterRequestPossible) == -1) 
+    if (semDown (semgid, sh->waiterRequestPossible) == -1) 
     {
         perror ("error on the up operation for semaphore access (PT)");
         exit (EXIT_FAILURE);
@@ -204,7 +203,7 @@ static void processOrder ()
     sh->fSt.waiterRequest.reqGroup = lastGroup; //group that requested food
 
     //internal update of chef state
-    sh->fSt.st.chefStat = REST; //chef is resting
+    sh->fSt.st.chefStat = WAIT_FOR_ORDER; //chef is resting
     saveState(nFic, &sh->fSt);
     //end of TODO
 
