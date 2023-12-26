@@ -219,7 +219,7 @@ static int decideNextGroup() // Decides which group is next to occupy a table
         {
              if (groupRecord[i] == WAIT)
              {   
-                 // Change groupe to the table 
+                 // Change group to the table 
                  groupRecord[i] = ATTABLE;
                  // Remove from waiting list
                  sh->fSt.groupsWaiting = sh->fSt.groupsWaiting - 1;
