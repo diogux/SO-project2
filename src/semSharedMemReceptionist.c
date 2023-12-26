@@ -147,7 +147,7 @@ int main (int argc, char *argv[])
  *
  *  \return table id or -1 (in case of wait decision)
  */
-static int decideTableOrWait(int n)
+static int decideTableOrWait(int n) // Associates a table to a group, if it's able to
 {
      //TODO insert your code here
 
@@ -181,6 +181,21 @@ static int decideTableOrWait(int n)
                 table_id = -1;
         }
      } 
+
+     // Return table id and if not availabe -1
+     // Store the groups to later assign the table
+     if (table_id != -1)
+     {
+         groupRecord[n] = ATTABLE;
+         return table_id;
+     } 
+    else
+    {
+         groupRecord[n] = WAIT;
+         sh->fSt.groupsWaiting = sh->fSt.groupsWaiting + 1;
+         return -1;
+    }
+
     // END
     return -1;
 
@@ -194,7 +209,7 @@ static int decideTableOrWait(int n)
  *
  *  \return group id or -1 (in case of wait decision)
  */
-static int decideNextGroup()
+static int decideNextGroup() // Decides which group is next to occupy a table
 {
      //TODO insert your code here
 
@@ -227,7 +242,7 @@ static int decideNextGroup()
  *
  *  \return request submitted by group
  */
-static request waitForGroup()
+static request waitForGroup() // Receptionist waits for request from group
 {
     request ret; 
 
@@ -295,7 +310,7 @@ static request waitForGroup()
  *  The internal state should be saved.
  *
  */
-static void provideTableOrWaitingRoom (int n)
+static void provideTableOrWaitingRoom (int n) // Receptionist decides if group should occupy table or wait
 {
     if (semDown (semgid, sh->mutex) == -1)  {                                                  /* enter critical region */
         perror ("error on the up operation for semaphore access (WT)");
@@ -341,7 +356,7 @@ static void provideTableOrWaitingRoom (int n)
  *
  */
 
-static void receivePayment (int n)
+static void receivePayment (int n) // Receptionist receives the payment, cheks if there are any groups waiting and if so places them in a now free table
 {
     if (semDown (semgid, sh->mutex) == -1)  {                                                  /* enter critical region */
         perror ("error on the up operation for semaphore access (WT)");
@@ -386,11 +401,12 @@ static void receivePayment (int n)
 
     // Let the groups know that they are waiting for payment 
 
-    if (semUp (semgid, sh->tableDone[id_mesa]) == -1)
+    if (semUp (semgid, sh->tableDone[table_id]) == -1)
     {
         perror ("error on the up operation for semaphore access (PT)");
         exit (EXIT_FAILURE);
     }
     
+    // END
 }
 
