@@ -196,7 +196,7 @@ static int decideTableOrWait(int n) // Associates a table to a group, if it's ab
          return -1;
     }
 
-    //end of TODO OF TODO
+    //end of TODO
     return -1;
 
 }
@@ -229,7 +229,7 @@ static int decideNextGroup() // Decides which group is next to occupy a table
         }
         return -1;
      }
-     //end of TODO OF TODO
+     //end of TODO
      return -1;
 }
 
@@ -273,7 +273,7 @@ static request waitForGroup() // Receptionist waits for request from group
         exit (EXIT_FAILURE);
     }
 
-    //end of TODO OF TODO
+    //end of TODO
 
     if (semDown (semgid, sh->mutex) == -1)  {                            /* enter critical region */
         perror ("error on the up operation for semaphore access (WT)");
@@ -337,7 +337,7 @@ static void provideTableOrWaitingRoom (int n) // Receptionist decides if group s
         }
     }
 
-    //end of TODO OF TODO
+    //end of TODO
 
     if (semUp (semgid, sh->mutex) == -1) {                               /* exit critical region */
         perror ("error on the down operation for semaphore access (WT)");
@@ -369,7 +369,7 @@ static void receivePayment (int n) // Receptionist receives the payment, cheks i
     sh->fSt.st.receptionistStat = RECVPAY;
     saveState(nFic, &sh->fSt);
 
-    // Check is the table is free
+    // Check if the table is free
     int table_id = sh->fSt.assignedTable[n];
 
     int group_id = decideNextGroup();
@@ -390,7 +390,7 @@ static void receivePayment (int n) // Receptionist receives the payment, cheks i
     
     sh->fSt.assignedTable[n] = -1;
 
-    //end of TODO OF TODO
+    //end of TODO
 
     if (semUp (semgid, sh->mutex) == -1)  {                            /* exit critical region */
      perror ("error on the down operation for semaphore access (WT)");
@@ -407,6 +407,6 @@ static void receivePayment (int n) // Receptionist receives the payment, cheks i
         exit (EXIT_FAILURE);
     }
     
-    //end of TODO OF TODO
+    //end of TODO
 }
 
