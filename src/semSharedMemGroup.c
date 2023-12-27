@@ -196,7 +196,7 @@ static void checkInAtReception(int id) // Group gets to the reception, and waits
         exit (EXIT_FAILURE);
     }
     
-    // END
+    //end of TODO
 
     if (semDown (semgid, sh->mutex) == -1) {                             /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
@@ -213,7 +213,7 @@ static void checkInAtReception(int id) // Group gets to the reception, and waits
     sh->fSt.receptionistRequest.reqGroup = id;
     saveState(nFic, &sh->fSt);
     
-    // END
+    //end of TODO
 
     if (semUp (semgid, sh->mutex) == -1) {                              /* exit critical region */
         perror ("error on the up operation for semaphore access (CT)");
@@ -238,7 +238,7 @@ static void checkInAtReception(int id) // Group gets to the reception, and waits
         exit (EXIT_FAILURE);
     }
 
-    // END
+    //end of TODO
 
 }
 
@@ -262,7 +262,7 @@ static void orderFood (int id) // After being assigned a table, the group waits 
         exit (EXIT_FAILURE);
     }
 
-    // END
+    //end of TODO
 
     if (semDown (semgid, sh->mutex) == -1) {                             /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
@@ -279,7 +279,7 @@ static void orderFood (int id) // After being assigned a table, the group waits 
     sh->fSt.waiterRequest.reqType = FOODREQ;
     sh->fSt.waiterRequest.reqGroup = id;
 
-    // END
+    //end of TODO
 
     if (semUp (semgid, sh->mutex) == -1) {                              /* exit critical region */
         perror ("error on the up operation for semaphore access (CT)");
@@ -296,7 +296,7 @@ static void orderFood (int id) // After being assigned a table, the group waits 
         exit (EXIT_FAILURE);
     }
 
-    // END
+    //end of TODO
 }
 
 /**
@@ -323,7 +323,7 @@ static void waitFood (int id) // Request has been given to the waiter, now the g
 
     int table = sh->fSt.assignedTable[id]; 
 
-    // END
+    //end of TODO
 
     if (semUp (semgid, sh->mutex) == -1) {                                /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
@@ -339,7 +339,7 @@ static void waitFood (int id) // Request has been given to the waiter, now the g
         exit (EXIT_FAILURE);
     }
 
-    // END
+    //end of TODO
 
     if (semDown (semgid, sh->mutex) == -1) {                             /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
@@ -352,7 +352,7 @@ static void waitFood (int id) // Request has been given to the waiter, now the g
     sh->fSt.st.groupStat[id] = EAT;
     saveState(nFic, &sh->fSt);
 
-    // END
+    //end of TODO
     
 
     if (semUp (semgid, sh->mutex) == -1) {                                /* enter critical region */
@@ -383,7 +383,7 @@ static void checkOutAtReception (int id) // Group will now wait for the waiter t
         exit (EXIT_FAILURE);
     }
 
-    // END
+    //end of TODO
 
     if (semDown (semgid, sh->mutex) == -1) {                              /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
@@ -402,7 +402,7 @@ static void checkOutAtReception (int id) // Group will now wait for the waiter t
 
     int table = sh->fSt.assignedTable[id];
 
-    // END
+    //end of TODO
 
 
     if (semUp (semgid, sh->mutex) == -1) {                                /* enter critical region */
@@ -426,7 +426,7 @@ static void checkOutAtReception (int id) // Group will now wait for the waiter t
         exit (EXIT_FAILURE);
     }
 
-    // END
+    //end of TODO
 
     if (semDown (semgid, sh->mutex) == -1) {                             /* enter critical region */
         perror ("error on the down operation for semaphore access (CT)");
@@ -439,7 +439,7 @@ static void checkOutAtReception (int id) // Group will now wait for the waiter t
     sh->fSt.st.groupStat[id] = LEAVING;
     saveState(nFic, &sh->fSt);
 
-    // END
+    //end of TODO
 
 
     if (semUp (semgid, sh->mutex) == -1) {                               /* enter critical region */

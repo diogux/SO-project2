@@ -127,8 +127,11 @@ static void waitForOrder ()
 {
 
     //TODO insert your code here
+
     //update chef state
-    //end of TODO
+    sh->fSt.st.chefStat = WAIT_FOR_ORDER; //chef waits for order
+    saveState(nFic, &sh->fSt);
+
     //block until waiter signals chef that there is a new order
     if (semDown (semgid, sh->waitOrder) == -1)
     {
@@ -136,9 +139,9 @@ static void waitForOrder ()
         exit (EXIT_FAILURE);
     }
      
-    sh->fSt.st.chefStat = WAIT_FOR_ORDER; //chef waits for order
-    saveState(nFic, &sh->fSt);
     
+    //end of TODO
+
     if (semDown (semgid, sh->mutex) == -1) {                            /* enter critical region */
         perror ("error on the up operation for semaphore access (PT)");
         exit (EXIT_FAILURE);
