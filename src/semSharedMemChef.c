@@ -207,7 +207,7 @@ static void processOrder ()
     sh->fSt.waiterRequest.reqGroup = lastGroup; //group that requested food
 
     //internal update of chef state
-    sh->fSt.st.chefStat = REST; //chef is resting
+    sh->fSt.st.chefStat = WAIT_FOR_ORDER; //chef is waiting again
     saveState(nFic, &sh->fSt);
     //end of TODO
 
