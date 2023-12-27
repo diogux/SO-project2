@@ -358,7 +358,7 @@ static void provideTableOrWaitingRoom (int n) // Receptionist decides if group s
 
 static void receivePayment (int n) // Receptionist receives the payment, checks if there are any groups waiting 
  {                                 // and if so places them in a now free table
- 
+
     if (semDown (semgid, sh->mutex) == -1)  {                          /* enter critical region */
         perror ("error on the up operation for semaphore access (WT)");
         exit (EXIT_FAILURE);
@@ -371,12 +371,11 @@ static void receivePayment (int n) // Receptionist receives the payment, checks 
 
     // Check if the table is free
     int table_id = sh->fSt.assignedTable[n];
-
     int group_id = decideNextGroup();
 
     if (group_id != -1)
     {
-        // Next group gets the table that's availabe
+        // Next group gets the table that's available
          sh->fSt.assignedTable[group_id] = table_id;
          groupRecord[n] = DONE;
     
@@ -385,11 +384,9 @@ static void receivePayment (int n) // Receptionist receives the payment, checks 
             perror ("error on the up operation for semaphore access (PT)");
             exit (EXIT_FAILURE);
         }
-  
     }
     
     sh->fSt.assignedTable[n] = -1;
-
     //end of TODO
 
     if (semUp (semgid, sh->mutex) == -1)  {                            /* exit critical region */
@@ -399,7 +396,7 @@ static void receivePayment (int n) // Receptionist receives the payment, checks 
 
     // TODO insert your code here
     // Let the groups know that they are waiting for payment 
-    if (semUp (semgid, sh->tableDone[table_id]) == -1)
+    if (semUp (semgid, sh->tableDone[table_id]) == -1)                 /* exit critical region */
     {
         perror ("error on the up operation for semaphore access (PT)");
         exit (EXIT_FAILURE);
