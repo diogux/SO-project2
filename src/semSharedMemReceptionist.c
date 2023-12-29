@@ -192,7 +192,7 @@ static int decideTableOrWait(int n) // Associates a table to a group, if it's ab
     else
     {
          groupRecord[n] = WAIT;
-         sh->fSt.groupsWaiting = sh->fSt.groupsWaiting + 1;
+         sh->fSt.groupsWaiting++; 
          return -1;
     }
 
@@ -222,7 +222,7 @@ static int decideNextGroup() // Decides which group is next to occupy a table
                  // Change group to the table 
                  groupRecord[i] = ATTABLE;
                  // Remove from waiting list
-                 sh->fSt.groupsWaiting = sh->fSt.groupsWaiting - 1;
+                 sh->fSt.groupsWaiting--; 
 
                  return i;
             }
