@@ -152,53 +152,46 @@ static int decideTableOrWait(int n) // Associates a table to a group, if it's ab
      //TODO insert your code here
 
     int table_id = 0;
-    int num_tables = 0;
+    int table_occupied = 0;
    
     // This is for the assignments of the tables
-    for (int i = 0; i < MAXGROUPS; i++) 
-     { 
-        // Trying to give a table to the group if it's able to: associates table to group
-         if(sh->fSt.assignedTable[i] == 1)
-        {   
-            if (num_tables == 0)
-            {
-                table_id = 0;
-                num_tables ++;
+    for (int i = 0; i < MAXGROUPS; i++) { 
+        // Checking for free tables
+         
+         if(sh->fSt.assignedTable[i] == 0) { // If the table 0 is occupied
+           
+            if (table_occupied == 0) { // If we have not found an occupied table yet
+            
+                table_id = 1; // Assign table 1
+                table_occupied++;
             }
             else
                 // Wait decision
                 table_id = -1;
-        }
-        else if (sh->fSt.assignedTable[i] == 0)
-        {
-            if (num_tables == 0)
-            {
-                table_id = 1;
-                num_tables ++;
-            }
-            else
+        } 
+         else if (sh->fSt.assignedTable[i] == 1) { // If the table 1 is occupied
+            
+             if (table_occupied == 0) { // If we have not found an occupied table yet
+                table_id = 0; // Assign table 0
+                table_occupied++; 
+            } else
                 // Wait decision
                 table_id = -1;
-        }
+          }
      } 
 
      // Return table id and if not available -1
      // Store the groups to later assign the table
-     if (table_id != -1)
-     {
+     if (table_id != -1) {
          groupRecord[n] = ATTABLE;
          return table_id;
-     } 
-    else
-    {
+     } else {
          groupRecord[n] = WAIT;
          sh->fSt.groupsWaiting++; 
          return -1;
     }
 
     //end of TODO
-    return -1;
-
 }
 
 /**
