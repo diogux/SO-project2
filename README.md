@@ -1,5 +1,18 @@
 # Restaurant Simulation Project
 
+
+## Team Members
+
+| Nmec   | Name           | Email                  | Github                                                |
+| ------ | -------------- | ---------------------- | ----------------------------------------------------- |
+| 114137 | Diogo Fernandes    | <diogomiguel.fernandes@ua.pt>    | [diogux](https://github.com/diogux)       |
+| 113736 | Raquel Vinagre   | <raquelvinagre@ua.pt>     | [raquelvinagre](https://github.com/raquelvinagre)               |
+
+
+## Relatório
+[Relatório](https://uapt33090-my.sharepoint.com/:w:/g/personal/raquelvinagre_ua_pt/ERFVvgJHE9xAi_01TgKS4zQB-tiYRQYHlR1W98Hs4N5D9Q?e=phxAAL)
+
+
 ## Description
 
 This project simulates a restaurant scenario where multiple groups need to dine. The restaurant consists of two tables, a receptionist, a waiter, and a chef. Groups approach the receptionist to get a table assignment, order food from the waiter, and pay the bill before leaving. The waiter coordinates between the groups and the chef, while the chef prepares the food.
